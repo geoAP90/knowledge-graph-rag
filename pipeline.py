@@ -7,7 +7,7 @@ logging.info('Starting the data pipeline...')
 
 # Get list of PDF files from 'files' folder
 logging.info('Getting list of PDF files from "files" folder')
-files_path = 'files'
+files_path = 'files-x'
 files = [files_path+'/'+file for file in os.listdir(files_path) if file.endswith('.pdf')]
 logging.info(f'List of PDF files: {files}')
 

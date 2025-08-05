@@ -1,0 +1,63 @@
+<!-- static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Graph RAG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      color: #0077cc;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 80%;
+      margin-bottom: 1rem;
+    }
+    button {
+      width: 20%;
+      cursor: pointer;
+    }
+    #response {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ask your Knowledge Graph</h1>
+  <input type="text" id="query" placeholder="e.g., What are the top skills in the graph?" />
+  <button onclick="askQuery()">Ask</button>
+  <div id="response"></div>
+
+  <script>
+    async function askQuery() {
+      const question = document.getElementById('query').value;
+      const responseDiv = document.getElementById('response');
+      responseDiv.innerHTML = '🧠 Thinking...';
+
+      try {
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: question })
+        });
+        const data = await res.json();
+        responseDiv.innerHTML = `<strong>Answer:</strong><br>${data.answer}`;
+      } catch (err) {
+        responseDiv.innerHTML = '❌ Error fetching response.';
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
